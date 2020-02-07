@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zju.edu.qyTest.mapper.UsersMapper">
+  <resultMap id="BaseResultMap" type="zju.edu.qyTest.pojo.Users">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="gender" jdbcType="BIGINT" property="gender" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="hospital" jdbcType="VARCHAR" property="hospital" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="usertype" jdbcType="BIGINT" property="usertype" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, realname, gender, department, hospital, title, usertype
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from users
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="zju.edu.qyTest.pojo.Users">
+    insert into users (id, username, password, 
+      realname, gender, department, 
+      hospital, title, usertype
+      )
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=BIGINT}, #{department,jdbcType=VARCHAR}, 
+      #{hospital,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{usertype,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="zju.edu.qyTest.pojo.Users">
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="hospital != null">
+        hospital,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="usertype != null">
+        usertype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=BIGINT},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="hospital != null">
+        #{hospital,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null">
+        #{usertype,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zju.edu.qyTest.pojo.Users">
+    update users
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=BIGINT},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="hospital != null">
+        hospital = #{hospital,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null">
+        usertype = #{usertype,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zju.edu.qyTest.pojo.Users">
+    update users
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=BIGINT},
+      department = #{department,jdbcType=VARCHAR},
+      hospital = #{hospital,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      usertype = #{usertype,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from users
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from users
+  </select>
+</mapper>

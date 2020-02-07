@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zju.edu.qyTest.mapper.CtimgsMapper">
+  <resultMap id="BaseResultMap" type="zju.edu.qyTest.pojo.Ctimgs">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
+    <result column="uploadname" jdbcType="VARCHAR" property="uploadname" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="patient_id" jdbcType="BIGINT" property="patientId" />
+    <result column="doctor_id" jdbcType="BIGINT" property="doctorId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, filename, uploadname, time, type, patient_id, doctor_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ctimgs
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ctimgs
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="zju.edu.qyTest.pojo.Ctimgs">
+    insert into ctimgs (id, filename, uploadname, 
+      time, type, patient_id, 
+      doctor_id)
+    values (#{id,jdbcType=BIGINT}, #{filename,jdbcType=VARCHAR}, #{uploadname,jdbcType=VARCHAR}, 
+      #{time,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{patientId,jdbcType=BIGINT}, 
+      #{doctorId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="zju.edu.qyTest.pojo.Ctimgs">
+    insert into ctimgs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="filename != null">
+        filename,
+      </if>
+      <if test="uploadname != null">
+        uploadname,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="doctorId != null">
+        doctor_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="filename != null">
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadname != null">
+        #{uploadname,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=BIGINT},
+      </if>
+      <if test="doctorId != null">
+        #{doctorId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zju.edu.qyTest.pojo.Ctimgs">
+    update ctimgs
+    <set>
+      <if test="filename != null">
+        filename = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadname != null">
+        uploadname = #{uploadname,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=BIGINT},
+      </if>
+      <if test="doctorId != null">
+        doctor_id = #{doctorId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zju.edu.qyTest.pojo.Ctimgs">
+    update ctimgs
+    set filename = #{filename,jdbcType=VARCHAR},
+      uploadname = #{uploadname,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      patient_id = #{patientId,jdbcType=BIGINT},
+      doctor_id = #{doctorId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

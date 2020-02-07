@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zju.edu.qyTest.mapper.PatientsMapper">
+  <resultMap id="BaseResultMap" type="zju.edu.qyTest.pojo.Patients">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="gender" jdbcType="BIGINT" property="gender" />
+    <result column="age" jdbcType="BIGINT" property="age" />
+    <result column="date" jdbcType="VARCHAR" property="date" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="illnesshistory" jdbcType="VARCHAR" property="illnesshistory" />
+    <result column="doctor_id" jdbcType="BIGINT" property="doctorId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="zju.edu.qyTest.pojo.Patients">
+    <result column="check_result" jdbcType="LONGVARCHAR" property="checkResult" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, gender, age, date, description, illnesshistory, doctor_id
+  </sql>
+  <sql id="Blob_Column_List">
+    check_result
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from patients
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from patients
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="zju.edu.qyTest.pojo.Patients">
+    insert into patients (id, username, gender, 
+      age, date, description, 
+      illnesshistory, doctor_id, check_result
+      )
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{gender,jdbcType=BIGINT}, 
+      #{age,jdbcType=BIGINT}, #{date,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{illnesshistory,jdbcType=VARCHAR}, #{doctorId,jdbcType=BIGINT}, #{checkResult,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="zju.edu.qyTest.pojo.Patients">
+    insert into patients
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="illnesshistory != null">
+        illnesshistory,
+      </if>
+      <if test="doctorId != null">
+        doctor_id,
+      </if>
+      <if test="checkResult != null">
+        check_result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=BIGINT},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=BIGINT},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="illnesshistory != null">
+        #{illnesshistory,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        #{doctorId,jdbcType=BIGINT},
+      </if>
+      <if test="checkResult != null">
+        #{checkResult,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="zju.edu.qyTest.pojo.Patients">
+    update patients
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=BIGINT},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=BIGINT},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="illnesshistory != null">
+        illnesshistory = #{illnesshistory,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        doctor_id = #{doctorId,jdbcType=BIGINT},
+      </if>
+      <if test="checkResult != null">
+        check_result = #{checkResult,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="zju.edu.qyTest.pojo.Patients">
+    update patients
+    set username = #{username,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=BIGINT},
+      age = #{age,jdbcType=BIGINT},
+      date = #{date,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      illnesshistory = #{illnesshistory,jdbcType=VARCHAR},
+      doctor_id = #{doctorId,jdbcType=BIGINT},
+      check_result = #{checkResult,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="zju.edu.qyTest.pojo.Patients">
+    update patients
+    set username = #{username,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=BIGINT},
+      age = #{age,jdbcType=BIGINT},
+      date = #{date,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      illnesshistory = #{illnesshistory,jdbcType=VARCHAR},
+      doctor_id = #{doctorId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from patients
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <select id="findByDoctorId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from patients
+    where doctor_id = #{doctorId,jdbcType=VARCHAR}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from patients
+  </select>
+</mapper>
