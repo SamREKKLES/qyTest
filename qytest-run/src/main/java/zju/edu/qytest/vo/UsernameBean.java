@@ -1,7 +1,7 @@
 package zju.edu.qytest.vo;
 
 /**
- * 注册接口封装对象
+ * 用户姓名封装对象
  * @author zj
  * @date 2.6, 2020
  */
