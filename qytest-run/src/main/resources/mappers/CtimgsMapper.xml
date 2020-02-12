@@ -125,4 +125,10 @@
     <include refid="Base_Column_List" />
     from ctimgs
   </select>
+  <select id="findByPatientId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ctimgs
+    where patient_id = #{patientId,jdbcType=BIGINT}
+  </select>
 </mapper>
