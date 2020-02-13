@@ -1,6 +1,6 @@
-package zju.edu.qytest.service;
+package zju.edu.qyTest.service;
 
-import zju.edu.qytest.pojo.Users;
+import zju.edu.qyTest.pojo.Users;
 
 public interface UsersService extends CurdService<Users> {
 
@@ -10,4 +10,11 @@ public interface UsersService extends CurdService<Users> {
      * @return
      */
     Users findByUsername(String username);
+
+    /**
+     * 查找用户的菜单权限标识集合
+     * @param userName
+     * @return
+     */
+    String findPermissions(String userName);
 }

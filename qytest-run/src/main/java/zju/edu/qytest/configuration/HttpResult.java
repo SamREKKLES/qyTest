@@ -1,7 +1,5 @@
-package zju.edu.qytest.configuration;
+package zju.edu.qyTest.configuration;
 
-import net.sf.json.JSONObject;
-import net.sf.json.JSONException;
 
 /**
  * HTTP结果封装
@@ -10,38 +8,69 @@ import net.sf.json.JSONException;
  */
 public class HttpResult {
 
-    private JSONObject object;
+    private String status;
+    private Object data;
 
-    public static HttpResult error() throws JSONException {
+    public static HttpResult error() {
         HttpResult httpResult = new HttpResult();
-        httpResult.object.put("status", "fail");
+        httpResult.setStatus("fail");
         return httpResult;
     }
 
-    public static HttpResult ok() throws JSONException {
+    public static HttpResult error(Object data) {
         HttpResult httpResult = new HttpResult();
-        httpResult.object.put("status", "success");
+        httpResult.setStatus("fail");
+        httpResult.setData(data);
         return httpResult;
     }
 
-    public static HttpResult msg(String msg) throws JSONException {
+    public static HttpResult ok() {
         HttpResult httpResult = new HttpResult();
-        httpResult.object.put("message", msg);
+        httpResult.setStatus("success");
         return httpResult;
     }
 
-    public static HttpResult data(JSONObject data) {
+    public static HttpResult ok(Object data) {
         HttpResult httpResult = new HttpResult();
-        httpResult.object = data;
+        httpResult.setStatus("success");
+        httpResult.setData(data);
         return httpResult;
     }
 
-    public JSONObject getObject() {
-        return object;
+    public static HttpResult repeat() {
+        HttpResult httpResult = new HttpResult();
+        httpResult.setStatus("repeat");
+        return httpResult;
     }
 
-    public void setObject(JSONObject object) {
-        this.object = object;
+    public static HttpResult repeat(Object data) {
+        HttpResult httpResult = new HttpResult();
+        httpResult.setStatus("repeat");
+        httpResult.setData(data);
+        return httpResult;
+    }
+
+    public static HttpResult data(Object data) {
+        HttpResult httpResult = new HttpResult();
+        httpResult.setStatus("success");
+        httpResult.setData(data);
+        return httpResult;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }
 

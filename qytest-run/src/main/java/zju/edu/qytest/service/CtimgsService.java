@@ -1,6 +1,8 @@
-package zju.edu.qytest.service;
+package zju.edu.qyTest.service;
 
-import zju.edu.qytest.pojo.Ctimgs;
+import zju.edu.qyTest.pojo.Ctimgs;
+
+import java.util.List;
 
 
 public interface CtimgsService extends CurdService<Ctimgs> {
@@ -11,4 +13,11 @@ public interface CtimgsService extends CurdService<Ctimgs> {
      * @return
      */
     Ctimgs findByFilename(String filename);
+
+    /**
+     * 根据病人ID查询
+     * @param patientId
+     * @return
+     */
+    List<Ctimgs> findByPatientId(Long patientId);
 }
