@@ -44,7 +44,7 @@ public class UsersController {
     @PostMapping("/searchUsers")
     public HttpResult searchUsers(@RequestParam(value = "username") @NotNull String username){
         if(username == null){
-            return HttpResult.msg("It's null");
+            return HttpResult.error("It's null");
         } else if(username.equals("all")){
             List<Users> users = usersService.findAll();
             for(Users user: users) {

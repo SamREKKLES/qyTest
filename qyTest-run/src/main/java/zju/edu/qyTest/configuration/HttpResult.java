@@ -50,12 +50,6 @@ public class HttpResult {
         return httpResult;
     }
 
-    public static HttpResult msg(String status){
-        HttpResult httpResult = new HttpResult();
-        httpResult.setStatus(status);
-        return httpResult;
-    }
-
     public static HttpResult data(Object data) {
         HttpResult httpResult = new HttpResult();
         httpResult.setStatus("success");

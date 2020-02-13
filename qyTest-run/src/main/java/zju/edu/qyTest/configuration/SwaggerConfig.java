@@ -39,7 +39,8 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("zju.edu.qyTest.controller"))
                 .paths(PathSelectors.any())
                 .build()
-//                .globalOperationParameters(parameters)
+                //是否开启token验证
+                .globalOperationParameters(parameters)
                 .apiInfo(new ApiInfoBuilder()
                         .description("qyTest 接口测试文档")
                         .contact(new Contact("zj",

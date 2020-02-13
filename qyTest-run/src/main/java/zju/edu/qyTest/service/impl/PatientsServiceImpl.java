@@ -52,7 +52,7 @@ public class PatientsServiceImpl implements PatientsService {
     }
 
     @Override
-    public Patients findByUsername(String username) {
+    public List<Patients> findByUsername(String username) {
         return patientsMapper.findByUsername(username);
     }
 

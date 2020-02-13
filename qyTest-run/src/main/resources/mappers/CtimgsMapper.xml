@@ -125,7 +125,7 @@
     <include refid="Base_Column_List" />
     from ctimgs
   </select>
-  <select id="findByPatientId" resultMap="BaseResultMap">
+  <select id="findByPatientId" resultMap="BaseResultMap" parameterType="java.lang.Long">
     select
     <include refid="Base_Column_List" />
     from ctimgs

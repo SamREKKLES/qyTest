@@ -11,7 +11,7 @@ public interface PatientsService extends CurdService<Patients> {
      * @param username
      * @return
      */
-    Patients findByUsername(String username);
+    List<Patients> findByUsername(String username);
 
     /**
      * 根据医生ID查询

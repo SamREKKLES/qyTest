@@ -5,13 +5,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import zju.edu.qyTest.configuration.HttpResult;
 import zju.edu.qyTest.pojo.Ctimgs;
 import zju.edu.qyTest.pojo.Patients;
-import zju.edu.qyTest.pojo.Users;
 import zju.edu.qyTest.service.CtimgsService;
 import zju.edu.qyTest.service.PatientsService;
 import net.sf.json.*;
@@ -23,11 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Ct图像接口
@@ -58,46 +52,54 @@ public class CtimgsController {
     public HttpResult CTUpload(
                                @RequestParam(value = "patient_id") @NotNull Long patientId,
                                @RequestParam(value = "img_type") @NotNull String type,
-                               @RequestParam(value = "datetime") @NotNull Date datetime,
-                               @RequestPart MultipartFile file, HttpServletRequest request) throws IOException {
+                               @RequestParam(value = "datetime") @NotNull String time,
+                               @RequestPart MultipartFile file, HttpServletRequest request) throws IOException
+    {
         Map<File, MultipartFile> toSave = new HashMap<>(1);
         String uploadName = file.getOriginalFilename();
-        String time = new SimpleDateFormat("yyyy-MM-dd").format(datetime);
-        System.out.println("patient_id" + patientId +
-                "img_type" + type + "datetime" + time);
         String filename = type + "_" + UUID.randomUUID() + ".nii";
         File savePath = new File(FILE_JOINER.join(UPLOAD_FOLDER, patientId, filename));
-        Ctimgs record = new Ctimgs();
-        if(patientsService.findById(patientId) != null){
-//            record.setId(id);
+        Patients patient = patientsService.findById(patientId);
+        if(patient != null){
+            Ctimgs record = new Ctimgs();
             record.setFilename(filename);
             record.setUploadname(uploadName);
             record.setTime(time);
             record.setType(type);
             record.setPatientId(patientId);
             record.setDoctorId((Long) request.getSession().getAttribute("current_id"));
-            ctimgsService.save(record);
-            toSave.put(savePath, file);
-            for (Map.Entry<File, MultipartFile> entry : toSave.entrySet()) {
-                FileUtils.writeByteArrayToFile(entry.getKey(), entry.getValue().getBytes());
+            if(userAuthorityUtils.classAuthority(patient.getDoctorId(), request)){
+                ctimgsService.save(record);
+                toSave.put(savePath, file);
+                for (Map.Entry<File, MultipartFile> entry : toSave.entrySet()) {
+                    FileUtils.writeByteArrayToFile(entry.getKey(), entry.getValue().getBytes());
+                }
+                return HttpResult.ok();
+            } else {
+                return HttpResult.error("无权限");
             }
-            return HttpResult.ok();
         } else {
-            return HttpResult.error();
+            return HttpResult.error("It's null");
         }
     }
 
 
     @ApiOperation("病人的ct图像列表")
     @PostMapping("/imgList")
-    public HttpResult imgList(@RequestParam(value = "patient") @NotNull String username, HttpServletRequest request) throws JSONException {
-        Patients patient = patientsService.findByUsername(username);
+    public HttpResult imgList(@RequestParam(value = "patient") @NotNull Long patientId, HttpServletRequest request) throws JSONException {
+        Patients patient = patientsService.findById(patientId);
+        JSONArray ctArray = new JSONArray();
+        JSONObject jsonObject1 = new JSONObject();
         if(patient == null){
-            return HttpResult.ok();
+            return HttpResult.error("It's null");
         } else {
-            System.out.println(userAuthorityUtils.classAuthority(patient.getDoctorId(), request));
             if(userAuthorityUtils.classAuthority(patient.getDoctorId(), request)){
-                jsonObject.put("imgs", patient);
+                List<Ctimgs> ctimgs = ctimgsService.findByPatientId(patient.getId());
+                for(Ctimgs ctimg : ctimgs){
+                    jsonObject1.put("img", ctimg);
+                    ctArray.add(jsonObject1);
+                }
+                jsonObject.put("imgs", ctArray);
                 return HttpResult.data(jsonObject);
             } else {
                 return HttpResult.error("无权限");
@@ -111,11 +113,10 @@ public class CtimgsController {
     public HttpResult delImage(@RequestParam @NotNull String filename, HttpServletRequest request) throws JSONException {
         ImgState imgState = new ImgState();
         Ctimgs ctimgs = ctimgsService.findByFilename(filename);
-        Patients patient = patientsService.findById(ctimgs.getPatientId());
         if(ctimgs == null){
-            return HttpResult.msg("It's null");
+            return HttpResult.error("It's null");
         } else {
-            if(userAuthorityUtils.classAuthority(patient.getDoctorId(), request)){
+            if(userAuthorityUtils.classAuthority(ctimgs.getDoctorId(), request)){
                 if(ctimgs.getType().equals("cbf")){
                     imgState.setCbf("success");
                 } else if(ctimgs.getType().equals("cbv")){

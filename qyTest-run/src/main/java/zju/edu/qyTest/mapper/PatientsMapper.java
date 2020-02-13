@@ -20,7 +20,7 @@ public interface PatientsMapper {
 
     int updateByPrimaryKey(Patients record);
 
-    Patients findByUsername(@Param(value="username") String username);
+    List<Patients> findByUsername(@Param(value="username") String username);
 
     List<Patients> findByDoctorId(@Param(value="doctorId") Long doctorId);
 

@@ -11,7 +11,7 @@
     <groupId>zju.edu.qyTest-run</groupId>
     <artifactId>qytest-run</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>qytest-run</name>
+    <name>qyTest-run</name>
     <description>Spring Boot</description>
 
     <properties>

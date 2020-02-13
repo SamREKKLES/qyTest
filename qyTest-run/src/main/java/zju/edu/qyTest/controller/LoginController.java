@@ -5,7 +5,6 @@ import com.google.code.kaptcha.Producer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +31,6 @@ import java.io.IOException;
  * @date 2.9, 2020
  */
 
-//{
-//        "captcha": "string",
-//        "password": "111111111",
-//        "username": "root"
-//        }
 @RestController
 @RequestMapping("/api")
 @Api(tags = "登陆注册接口")
@@ -74,13 +68,13 @@ public class LoginController {
         String password = loginBean.getPassword();
         String captcha = loginBean.getCaptcha();
         // 从session中获取之前保存的验证码跟前台传来的验证码进行匹配
-//        Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-//        if(kaptcha == null){
-//            return HttpResult.error("验证码已失效");
-//        }
-//        if(!captcha.equals(kaptcha)){
-//            return HttpResult.error("验证码不正确");
-//        }
+        Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        if(kaptcha == null){
+            return HttpResult.error("验证码已失效");
+        }
+        if(!captcha.equals(kaptcha)){
+            return HttpResult.error("验证码不正确");
+        }
         //用户信息及账号，密码的判断
         Users user = usersService.findByUsername(username);
         if (user == null) {

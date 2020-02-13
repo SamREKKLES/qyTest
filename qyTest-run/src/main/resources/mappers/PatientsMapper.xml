@@ -162,7 +162,7 @@
     from patients
     where username = #{username,jdbcType=VARCHAR}
   </select>
-  <select id="findByDoctorId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="findByDoctorId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from patients
