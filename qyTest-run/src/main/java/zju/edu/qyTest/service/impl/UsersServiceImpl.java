@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import zju.edu.qyTest.mapper.UsersMapper;
 import zju.edu.qyTest.pojo.Users;
 import zju.edu.qyTest.service.UsersService;
+import zju.edu.qyTest.vo.GetUsersBean;
 
 import java.util.List;
 
@@ -61,9 +62,10 @@ UsersServiceImpl implements UsersService {
     public String findPermissions(String userName) {
         String perms = null;
         Users user = usersMapper.findByUsername(userName);
-        if(user.getUsertype() != null && !"".equals(user.getUsertype())) {
-            perms =user.getUsertype().toString();
+        if(user.getUserType() != null && !"".equals(user.getUserType())) {
+            perms =user.getUserType().toString();
         }
         return perms;
     }
+
 }

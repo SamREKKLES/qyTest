@@ -10,10 +10,13 @@
     <result column="department" jdbcType="VARCHAR" property="department" />
     <result column="hospital" jdbcType="VARCHAR" property="hospital" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="usertype" jdbcType="BIGINT" property="usertype" />
+    <result column="userType" jdbcType="BIGINT" property="userType" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, password, realname, gender, department, hospital, title, usertype
+    id, username, password, realname, gender, department, hospital, title, userType
+  </sql>
+  <sql id="Search_List">
+    username, realname, gender, department, hospital, title, userType
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -28,11 +31,11 @@
   <insert id="insert" parameterType="zju.edu.qyTest.pojo.Users">
     insert into users (id, username, password, 
       realname, gender, department, 
-      hospital, title, usertype
+      hospital, title, userType
       )
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{realname,jdbcType=VARCHAR}, #{gender,jdbcType=BIGINT}, #{department,jdbcType=VARCHAR}, 
-      #{hospital,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{usertype,jdbcType=BIGINT}
+      #{hospital,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{userType,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="zju.edu.qyTest.pojo.Users">
@@ -62,8 +65,8 @@
       <if test="title != null">
         title,
       </if>
-      <if test="usertype != null">
-        usertype,
+      <if test="userType != null">
+        userType,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -91,8 +94,8 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="usertype != null">
-        #{usertype,jdbcType=BIGINT},
+      <if test="userType != null">
+        #{userType,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -120,8 +123,8 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="usertype != null">
-        usertype = #{usertype,jdbcType=BIGINT},
+      <if test="userType != null">
+        userType = #{userType,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -135,7 +138,7 @@
       department = #{department,jdbcType=VARCHAR},
       hospital = #{hospital,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      usertype = #{usertype,jdbcType=BIGINT}
+      userType = #{userType,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="findByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">

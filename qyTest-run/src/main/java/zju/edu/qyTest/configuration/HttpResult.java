@@ -1,11 +1,14 @@
 package zju.edu.qyTest.configuration;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * HTTP结果封装
  * @author zj
  * @date 2.8, 2020
  */
+@Slf4j
 public class HttpResult {
 
     private String status;
@@ -21,6 +24,7 @@ public class HttpResult {
         HttpResult httpResult = new HttpResult();
         httpResult.setStatus("fail");
         httpResult.setData(data);
+        log.info("失败" + data);
         return httpResult;
     }
 
@@ -40,6 +44,7 @@ public class HttpResult {
     public static HttpResult repeat() {
         HttpResult httpResult = new HttpResult();
         httpResult.setStatus("repeat");
+        log.info("出现重复");
         return httpResult;
     }
 
@@ -50,10 +55,18 @@ public class HttpResult {
         return httpResult;
     }
 
+    public static HttpResult reload() {
+        HttpResult httpResult = new HttpResult();
+        httpResult.setStatus("reload");
+        log.info("用户信息缺失");
+        return httpResult;
+    }
+
     public static HttpResult data(Object data) {
         HttpResult httpResult = new HttpResult();
         httpResult.setStatus("success");
         httpResult.setData(data);
+        log.info("数据：" + data);
         return httpResult;
     }
 

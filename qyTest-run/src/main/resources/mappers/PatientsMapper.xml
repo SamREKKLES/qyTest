@@ -10,12 +10,13 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="illnesshistory" jdbcType="VARCHAR" property="illnesshistory" />
     <result column="doctor_id" jdbcType="BIGINT" property="doctorId" />
+    <result column="check_result" jdbcType="VARCHAR" property="checkResult" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="zju.edu.qyTest.pojo.Patients">
-    <result column="check_result" jdbcType="LONGVARCHAR" property="checkResult" />
+    <result column="check_result" jdbcType="VARCHAR" property="checkResult" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, gender, age, date, description, illnesshistory, doctor_id
+    id, username, gender, age, date, description, illnesshistory, doctor_id, check_result
   </sql>
   <sql id="Blob_Column_List">
     check_result

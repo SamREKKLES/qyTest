@@ -1,6 +1,9 @@
 package zju.edu.qyTest.service;
 
 import zju.edu.qyTest.pojo.Users;
+import zju.edu.qyTest.vo.GetUsersBean;
+
+import java.util.List;
 
 public interface UsersService extends CurdService<Users> {
 
@@ -17,4 +20,5 @@ public interface UsersService extends CurdService<Users> {
      * @return
      */
     String findPermissions(String userName);
+
 }

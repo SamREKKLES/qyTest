@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import zju.edu.qyTest.security.JwtAuthenticationFilter;
 import zju.edu.qyTest.security.JwtAuthenticationProvider;
 
@@ -44,12 +45,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 跨域预检请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                // 登录及注册页面
+                // 登入登出及注册页面
                 .antMatchers("/api/register").permitAll()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/usernameCheck").permitAll()
+                .antMatchers("/api/logout").permitAll()
                 //其他页面
-                .antMatchers("/api/").permitAll()
+                //.antMatchers("/api/").permitAll()
                 // swagger
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()

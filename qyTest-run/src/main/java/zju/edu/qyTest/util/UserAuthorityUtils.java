@@ -2,6 +2,7 @@ package zju.edu.qyTest.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import zju.edu.qyTest.configuration.HttpResult;
 import zju.edu.qyTest.pojo.Patients;
 import zju.edu.qyTest.pojo.Users;
 import zju.edu.qyTest.service.PatientsService;
@@ -26,17 +27,22 @@ public class UserAuthorityUtils {
 
     /**
      * 对于List patients用户的判断权限
-     * @param user
+     * @param request
      * @return
      */
-    public List<Patients> listAuthority(Users user){
+    public List<Patients> listAuthority(HttpServletRequest request) throws NullPointerException{
         List<Patients> patients = new ArrayList<>();
-            if (user.getUsertype() == 0) {
-                patients = patientsService.findAll();
-            } else {
-                patients = patientsService.findByDoctorId(user.getId());
-            }
-            return patients;
+        Long usertype_current = (Long)request.getSession().getAttribute("current_type");
+        Long userId_current = (Long)request.getSession().getAttribute("current_id");
+        if (userId_current == null){
+            patients = null;
+        } else if (usertype_current == 0) {
+            patients = patientsService.findAll();
+        } else {
+            patients = patientsService.findByDoctorId(userId_current);
+        }
+        return patients;
+
     }
 
     /**
@@ -45,11 +51,29 @@ public class UserAuthorityUtils {
      * @param request
      * @return
      */
-    public boolean classAuthority(Long userId_search, HttpServletRequest request) {
-        Long doctorId = (Long)request.getSession().getAttribute("current_id");
-        Long usertype_search = usersService.findById(userId_search).getUsertype();
-        Long usertype_current = usersService.findById(doctorId).getUsertype();
-        if(usertype_current <= usertype_search) {
+    public boolean classAuthority(Long userId_search, HttpServletRequest request) throws NullPointerException {
+        Long usertype_current = (Long)request.getSession().getAttribute("current_type");
+        Long usertype_search = usersService.findById(userId_search).getUserType();
+        if (usertype_current == null){
+            return false;
+        } else if (usertype_current <= usertype_search) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 对登录信息是否正确的判断权限
+     * true: 登录信息
+     * false: 无数据
+     * @param request
+     * @return
+     */
+
+    public boolean checkLoginInfo(HttpServletRequest request) {
+        Long userId_current = (Long)request.getSession().getAttribute("current_id");
+        if (userId_current == null){
             return true;
         } else {
             return false;

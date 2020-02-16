@@ -3,6 +3,7 @@ package zju.edu.qyTest.controller;
 import com.google.common.base.Joiner;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.*;
  * @author zj
  * @date 2.8, 2020
  */
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @Api(tags = "CT图像接口")
@@ -38,17 +40,13 @@ public class CtimgsController {
     @Autowired
     private PatientsService patientsService;
     @Autowired
-    private UsersService usersService;
-    @Autowired
     private UserAuthorityUtils userAuthorityUtils;
 
     private static final Joiner FILE_JOINER = Joiner.on("/");
     private final String UPLOAD_FOLDER = "UPLOAD_FOLDER";
-    private JSONObject jsonObject = new JSONObject();
-
 
     @ApiOperation("CT图像上传")
-    @PostMapping("/ctupload")
+    @PostMapping("/ctUpload")
     public HttpResult CTUpload(
                                @RequestParam(value = "patient_id") @NotNull Long patientId,
                                @RequestParam(value = "img_type") @NotNull String type,
@@ -74,9 +72,15 @@ public class CtimgsController {
                 for (Map.Entry<File, MultipartFile> entry : toSave.entrySet()) {
                     FileUtils.writeByteArrayToFile(entry.getKey(), entry.getValue().getBytes());
                 }
+                log.info("CT图像上传成功");
                 return HttpResult.ok();
             } else {
-                return HttpResult.error("无权限");
+                //判断登录信息是否存在（用于后台刷新后session无数据产生的错误）
+                if (userAuthorityUtils.checkLoginInfo(request)) {
+                    return HttpResult.reload();
+                } else {
+                    return HttpResult.error("无权限");
+                }
             }
         } else {
             return HttpResult.error("It's null");
@@ -87,22 +91,22 @@ public class CtimgsController {
     @ApiOperation("病人的ct图像列表")
     @PostMapping("/imgList")
     public HttpResult imgList(@RequestParam(value = "patient") @NotNull Long patientId, HttpServletRequest request) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
         Patients patient = patientsService.findById(patientId);
-        JSONArray ctArray = new JSONArray();
-        JSONObject jsonObject1 = new JSONObject();
         if(patient == null){
             return HttpResult.error("It's null");
         } else {
             if(userAuthorityUtils.classAuthority(patient.getDoctorId(), request)){
                 List<Ctimgs> ctimgs = ctimgsService.findByPatientId(patient.getId());
-                for(Ctimgs ctimg : ctimgs){
-                    jsonObject1.put("img", ctimg);
-                    ctArray.add(jsonObject1);
-                }
-                jsonObject.put("imgs", ctArray);
+                jsonObject.put("imgs", ctimgs);
                 return HttpResult.data(jsonObject);
             } else {
-                return HttpResult.error("无权限");
+                //判断登录信息是否存在（用于后台刷新后session无数据产生的错误）
+                if (userAuthorityUtils.checkLoginInfo(request)) {
+                    return HttpResult.reload();
+                } else {
+                    return HttpResult.error("无权限");
+                }
             }
         }
     }
@@ -111,6 +115,7 @@ public class CtimgsController {
     @ApiOperation("ct图像删除")
     @PostMapping("/delImage")
     public HttpResult delImage(@RequestParam @NotNull String filename, HttpServletRequest request) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
         ImgState imgState = new ImgState();
         Ctimgs ctimgs = ctimgsService.findByFilename(filename);
         if(ctimgs == null){
@@ -131,7 +136,12 @@ public class CtimgsController {
                 ctimgsService.delete(ctimgs);
                 return HttpResult.data(jsonObject.fromObject(imgState));
             } else {
-                return HttpResult.error("无权限");
+                //判断登录信息是否存在（用于后台刷新后session无数据产生的错误）
+                if (userAuthorityUtils.checkLoginInfo(request)) {
+                    return HttpResult.reload();
+                } else {
+                    return HttpResult.error("无权限");
+                }
             }
         }
     }

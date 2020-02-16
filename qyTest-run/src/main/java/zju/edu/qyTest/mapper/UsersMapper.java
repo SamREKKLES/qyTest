@@ -2,6 +2,8 @@ package zju.edu.qyTest.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import zju.edu.qyTest.pojo.Users;
+import zju.edu.qyTest.vo.GetUsersBean;
+
 import java.util.List;
 
 public interface UsersMapper {

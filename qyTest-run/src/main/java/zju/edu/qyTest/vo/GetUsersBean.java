@@ -1,11 +1,13 @@
-package zju.edu.qyTest.pojo;
+package zju.edu.qyTest.vo;
 
-public class Users {
-    private Long id;
+/**
+ * 用户查询封装对象
+ * @author zj
+ * @date 2.14, 2020
+ */
+public class GetUsersBean {
 
     private String username;
-
-    private String password;
 
     private String realname;
 
@@ -19,28 +21,12 @@ public class Users {
 
     private Long userType;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.username = username;
     }
 
     public String getRealname() {
@@ -48,7 +34,7 @@ public class Users {
     }
 
     public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
+        this.realname = realname;
     }
 
     public Long getGender() {
@@ -64,7 +50,7 @@ public class Users {
     }
 
     public void setDepartment(String department) {
-        this.department = department == null ? null : department.trim();
+        this.department = department;
     }
 
     public String getHospital() {
@@ -72,7 +58,7 @@ public class Users {
     }
 
     public void setHospital(String hospital) {
-        this.hospital = hospital == null ? null : hospital.trim();
+        this.hospital = hospital;
     }
 
     public String getTitle() {
@@ -80,7 +66,7 @@ public class Users {
     }
 
     public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+        this.title = title;
     }
 
     public Long getUserType() {
