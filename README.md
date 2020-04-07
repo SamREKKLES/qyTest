@@ -1,4 +1,4 @@
-# qyTest
+# qyTest dubbo-redis
 ### 1.开启zookeeper服务 cmd中zkServer.cmd
 
 ### 2.开启redis服务 cmd中redis-server.exe
